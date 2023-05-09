@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aplicacion.thecatsapp.data.model.Cat
 import com.aplicacion.thecatsapp.databinding.ListItemCatBinding
 
-class CatAdapter() : RecyclerView.Adapter<CatViewHolder>() {
+class CatAdapter : RecyclerView.Adapter<CatViewHolder>() {
 
     private var itemList: MutableList<Cat> = ArrayList()
 

@@ -8,18 +8,18 @@ import retrofit2.Retrofit
 
 class CatRepository {
 
-    private var productApiClient: CatApiClient
+    private var catApiClient: CatApiClient
 
     /**
      * Repository
      */
     init {
         val retrofit: Retrofit = RetrofitHelper().getRetrofit()
-        productApiClient = retrofit.create(CatApiClient::class.java)
+        catApiClient = retrofit.create(CatApiClient::class.java)
     }
 
     suspend fun getCats(): Response<ArrayList<Cat>> {
-            return productApiClient.getCats()
+            return catApiClient.getCats()
     }
 
 }

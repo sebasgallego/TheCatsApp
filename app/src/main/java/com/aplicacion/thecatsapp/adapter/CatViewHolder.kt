@@ -1,6 +1,5 @@
 package com.aplicacion.thecatsapp.adapter
 
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.aplicacion.thecatsapp.data.model.Cat
 import com.aplicacion.thecatsapp.databinding.ListItemCatBinding
