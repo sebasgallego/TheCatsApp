@@ -1,6 +1,6 @@
-package com.challenge.meli.core
+package com.aplicacion.thecatsapp.core
 
-import com.challenge.meli.utils.GlobalsVar.HOST_API
+import com.aplicacion.thecatsapp.utils.GlobalsVar.HOST_API
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

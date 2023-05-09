@@ -11,5 +11,6 @@ object GlobalsVar {
      * GET
      */
     const val GET_BREEDS = "v1/breeds"
+    const val URL_IMG = "https://cdn2.thecatapi.com/images/"
 
 }

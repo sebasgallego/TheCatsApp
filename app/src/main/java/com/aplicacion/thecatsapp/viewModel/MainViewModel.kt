@@ -32,6 +32,7 @@ class MainViewModel : ViewModel() {
      */
     fun getCats() {
         viewModelScope.launch {
+            loading.value = true
             val response = getCatsUseCase!!()
             if (response.httpCode == HttpURLConnection.HTTP_OK) {
                 catLiveData.postValue(response.body!!)

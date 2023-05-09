@@ -1,53 +1,75 @@
 package com.aplicacion.thecatsapp.view
 
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.aplicacion.thecatsapp.R
+import com.aplicacion.thecatsapp.adapter.CatAdapter
+import com.aplicacion.thecatsapp.databinding.ActivityMainBinding
 import com.aplicacion.thecatsapp.utils.ViewHelper
 import com.aplicacion.thecatsapp.viewModel.MainViewModel
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
-
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var adapter: CatAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initRecyclerView()
+        setupVieModel()
+        setupObservers()
+    }
+
+    private fun setupVieModel(){
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel.getCats()
     }
 
     /**
-     * Observe get list products
+     * Observe get list cats
      */
     private fun setupObservers() {
 
-        //Observe loading when get list products
+        //Observe loading when get list cats
         viewModel.loading.observe(this) {
-            progressBa
+            binding.progressBar.isVisible = it
         }
 
-        //Observe get list products
-        viewModel.productLiveData.observe(viewLifecycleOwner) { dataResponse ->
-            if (dataResponse!!.results.size > 0) {
-                adapter.newItems(ArrayList(dataResponse.results))
-                binding!!.contentRecyclerView.rvGroup.success()
-            } else {
-                val emptyData: String = getString(R.string.empty_data)
-                binding!!.contentRecyclerView.rvGroup.empty(emptyData)
+        //Observe get list cats
+        viewModel.catLiveData.observe(this) { dataResponse ->
+            if (dataResponse!!.size > 0) {
+                adapter.newItems(ArrayList(dataResponse))
             }
         }
 
-        //Observe error msg when get list products
-        viewModel.errorCode.observe(viewLifecycleOwner) { responseCode ->
+        //Observe error msg when get list cats
+        viewModel.errorCode.observe(this) { responseCode ->
             if (responseCode != null) {
-                binding!!.contentRecyclerView.rvGroup.retry(
-                    ViewHelper(requireActivity()).processMsgError(
-                        responseCode
-                    )
+                ViewHelper(this).processMsgError(
+                    responseCode
                 )
             }
         }
 
+    }
+
+    /**
+     * init Recycler View
+     */
+    @SuppressLint("SetTextI18n")
+    private fun initRecyclerView() {
+        adapter = CatAdapter()
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = adapter
     }
 
 }
