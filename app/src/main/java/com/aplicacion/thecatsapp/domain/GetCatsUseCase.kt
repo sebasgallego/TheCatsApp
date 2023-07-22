@@ -6,8 +6,10 @@ import com.aplicacion.thecatsapp.data.model.Cat
 import com.aplicacion.thecatsapp.data.network.ApiResponse
 import java.io.IOException
 import java.net.HttpURLConnection
+import javax.inject.Inject
 
-class GetCatsUseCase constructor(private val repository: CatRepository) {
+class GetCatsUseCase @Inject constructor(private val repository: CatRepository) {
+
     suspend operator fun invoke(): ApiResponse<ArrayList<Cat>> {
         try {
             val response = repository.getCats()

@@ -2,20 +2,22 @@ package com.aplicacion.thecatsapp.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aplicacion.thecatsapp.R
 import com.aplicacion.thecatsapp.adapter.CatAdapter
 import com.aplicacion.thecatsapp.databinding.ActivityMainBinding
 import com.aplicacion.thecatsapp.utils.ViewHelper
 import com.aplicacion.thecatsapp.viewModel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: CatAdapter
 
@@ -30,7 +32,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupVieModel(){
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.getCats()
     }
 

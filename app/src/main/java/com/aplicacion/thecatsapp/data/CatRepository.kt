@@ -1,25 +1,14 @@
 package com.aplicacion.thecatsapp.data
 
 import com.aplicacion.thecatsapp.data.model.Cat
-import com.aplicacion.thecatsapp.data.network.CatApiClient
-import com.aplicacion.thecatsapp.core.RetrofitHelper
+import com.aplicacion.thecatsapp.data.network.CatService
 import retrofit2.Response
-import retrofit2.Retrofit
+import javax.inject.Inject
 
-class CatRepository {
-
-    private var catApiClient: CatApiClient
-
-    /**
-     * Repository
-     */
-    init {
-        val retrofit: Retrofit = RetrofitHelper().getRetrofit()
-        catApiClient = retrofit.create(CatApiClient::class.java)
-    }
+class CatRepository @Inject constructor(private val apiService : CatService) {
 
     suspend fun getCats(): Response<ArrayList<Cat>> {
-            return catApiClient.getCats()
+            return apiService.getCats()
     }
 
 }

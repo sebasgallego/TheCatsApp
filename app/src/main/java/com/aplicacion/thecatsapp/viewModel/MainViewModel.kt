@@ -6,26 +6,20 @@ import androidx.lifecycle.viewModelScope
 import com.aplicacion.thecatsapp.data.CatRepository
 import com.aplicacion.thecatsapp.data.model.Cat
 import com.aplicacion.thecatsapp.domain.GetCatsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.net.HttpURLConnection
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val getCatsUseCase: GetCatsUseCase
+) : ViewModel() {
     // Expose screen UI product
-    private var catRepository: CatRepository? = null
-    var getCatsUseCase: GetCatsUseCase? = null
     val catLiveData = MutableLiveData<ArrayList<Cat>>()
     val errorCode: MutableLiveData<Int?> get() = _errorCode
     private val _errorCode = MutableLiveData<Int?>()
     val loading = MutableLiveData<Boolean>()
-
-    /**
-     * init Repository
-     */
-    init {
-        catRepository = CatRepository()
-        getCatsUseCase = GetCatsUseCase(catRepository!!)
-    }
 
     /**
      * get cats
@@ -33,7 +27,7 @@ class MainViewModel : ViewModel() {
     fun getCats() {
         viewModelScope.launch {
             loading.value = true
-            val response = getCatsUseCase!!()
+            val response = getCatsUseCase()
             if (response.httpCode == HttpURLConnection.HTTP_OK) {
                 catLiveData.postValue(response.body!!)
                 loading.value = false
